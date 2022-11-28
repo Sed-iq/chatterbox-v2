@@ -2,27 +2,43 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import verify from "./components/verify";
-function RegisterView() {
+import Input from "./components/form_disp";
+import ico from "./public/images/undraw_loving_story_re_wo5x.svg";
+import Axios from "axios";
+function RegisterView({ navigate }) {
+  var illus_text = (
+    <h2 className="lg:text-3xl text lg:py-5">
+      Register with us and explore a new{" "}
+      <span className="p-2 neon bg-indigo-500 rounded">World</span>{" "}
+    </h2>
+  );
   return (
-    <div>
-      <form>
-        <input type={"text"} placeholder="Write your username"></input> <br />{" "}
-        <br />
-        <input type={"password"} placeholder="Write your password"></input>{" "}
-        <br /> <br />
-        <button>Register</button>
-      </form>
-    </div>
+    <Input
+      icon={ico}
+      navigate={navigate}
+      reg={true}
+      illus={""}
+      logoHeader={"Register"}
+      illus_text={illus_text}
+      btn_text={"Register"}
+      either_route={"/login"}
+      either_text={"Already have an account? Login"}
+    />
   );
 }
+{
+  /* <h2 className="lg:text-3xl text lg:py-5">
+              Login to your account and explore so{" "}
+              <span className="p-2 neon bg-indigo-500 rounded">More</span>{" "}
+            </h2> */
+}
 function Main() {
-  const [error, setError] = useState(null);
   const [auth, setAuth] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
     verify(setAuth);
   }, [navigate]);
-  if (auth === false) return <RegisterView />;
+  if (auth === false) return <RegisterView navigate={navigate} />;
   else if (auth === null) return;
   else if (auth === true) navigate("/dashboard");
 }

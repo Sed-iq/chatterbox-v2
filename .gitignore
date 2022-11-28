@@ -1,2 +1,4 @@
 /node_modules
-.env
+/src/public/design.scss
+/src/public/src.css
+/src/Test.jsx

@@ -1,0 +1,225 @@
+:root {
+  --bg-col: #251e3e;
+  --darker: #051e3e;
+}
+
+@font-face {
+  font-family: "neon";
+  src: url("fonts/Neon-rave.otf");
+}
+@font-face {
+  font-family: "black_north";
+  src: url("fonts/Blacknorthdemo-mLE25.otf");
+}
+@font-face {
+  font-family: "uruoob";
+  src: url("fonts/Uroob-Regular.ttf");
+}
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  color: white;
+  background-color: var(--bg-col);
+}
+body .text {
+  font-family: black_north;
+}
+
+#logo {
+  font-family: neon;
+  letter-spacing: 1.5px;
+  font-weight: 300;
+}
+
+#illus img {
+  width: 200px;
+}
+
+.neon {
+  font-family: neon, "Times New Roman", Times, serif;
+  letter-spacing: 1.3px;
+}
+
+.black_north {
+  font-family: black_north, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  letter-spacing: 1.5px;
+}
+
+img {
+  pointer-events: none;
+}
+
+#title-phone {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  #logo img {
+    width: 30px;
+  }
+  #img_top img {
+    width: 300px;
+  }
+  #desc {
+    max-width: 80%;
+  }
+  #working_icon img {
+    width: 300px;
+  }
+  #footer {
+    border-top: 2px solid white;
+    width: 60%;
+  }
+}
+@media (min-width: 572px) and (max-width: 639px) {
+  #intro h2 {
+    margin: 0em 2em;
+  }
+  #top_holder {
+    display: flex;
+    flex-direction: column !important;
+  }
+  #desc {
+    font-size: 20px;
+  }
+}
+/* Phone */
+@media (max-width: 640px) {
+  #inputs {
+    display: flex;
+    justify-content: center;
+    margin: 1em 0em;
+  }
+  #inputs #input_holder input {
+    padding: 1em 0.8em;
+  }
+  #login #footer-cover {
+    margin-top: 2em;
+  }
+  #login #footer-cover footer {
+    color: rgb(97, 97, 97);
+  }
+  Login {
+    display: none;
+  }
+  #reg_link {
+    margin-top: 1em;
+    color: blue;
+    font-weight: bolder;
+  }
+  #illus {
+    display: none !important;
+  }
+  #desc {
+    font-size: 13px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    letter-spacing: 0.4px;
+  }
+  #title-pc {
+    display: none;
+  }
+  #title-phone {
+    display: block;
+  }
+  #logo img {
+    width: 20px;
+  }
+  #img_top,
+#working_icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #img_top img {
+    width: 250px;
+  }
+  #title-phone {
+    margin: 0em 0em 3em 1em;
+    text-align: center;
+  }
+  #footer {
+    border-top: 2px solid white;
+    width: 80%;
+  }
+}
+.uruoob {
+  font-family: uruoob, "Times New Roman", Times, serif;
+}
+
+#back {
+  background-color: rgb(114, 10, 10);
+  border-radius: 50%;
+}
+
+#footer-cover {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#illus {
+  display: none;
+}
+
+.login_inside .text {
+  font-size: 1.4em;
+}
+
+@media (min-width: 1024px) {
+  .full {
+    width: 100%;
+  }
+  #illus {
+    display: block;
+  }
+  #back {
+    transition: 0.2s all;
+    -webkit-clip-path: circle(40% at 25px 25px);
+            clip-path: circle(40% at 25px 25px);
+    background: #851e3e;
+    text-align: center;
+  }
+  #back:hover {
+    -webkit-clip-path: circle(50%);
+            clip-path: circle(50%);
+  }
+  #illus {
+    margin-left: 4em;
+    width: 50%;
+  }
+  #illus img {
+    width: 300px;
+  }
+  .login_inside {
+    width: 100%;
+    height: 80%;
+  }
+  .login_inside #footer-cover {
+    width: 100%;
+  }
+  .login_inside #footer-cover footer {
+    margin-top: 1em;
+    width: 100%;
+    color: rgb(189, 189, 189);
+  }
+  #inputs {
+    width: 50%;
+    padding: 0.5em;
+  }
+  #login_holder {
+    width: 100%;
+  }
+  #login_page {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+  #login_page .login {
+    height: 90%;
+    width: 80%;
+    background-color: var(--darker);
+  }
+}/*# sourceMappingURL=design.css.map */

@@ -13,7 +13,6 @@ function App(setState) {
   )
     .then(({ data }) => {
       setState(data.auth);
-      console.log(data.auth);
     })
     .catch((error) => {
       setState(false);
