@@ -6,20 +6,32 @@ import { useEffect, useState, useRef } from "react";
 import { Toast } from "primereact/toast";
 import Footer from "./footer";
 
-function Inputs({ placeholder, type, ico, clas }) {
+function reqornot(req, placeholder, type) {
+  return req === true ? (
+    <InputText
+      required
+      minLength={4}
+      type={type}
+      placeholder={placeholder}
+      className="lg:w-full border-0 rounded-l-none bg-gray-900"
+    />
+  ) : (
+    <InputText
+      minLength={4}
+      type={type}
+      placeholder={placeholder}
+      className="lg:w-full border-0 rounded-l-none bg-gray-900"
+    />
+  );
+}
+function Inputs({ placeholder, type, ico, clas, req }) {
   return (
     <div id="inputs" className={`w-full flex lg:mt-16 ${clas}`}>
       <div className=" flex justify-center px-2 rounded-l bg-gray-900  items-center  ">
         <i className={ico}></i>
       </div>
       <div id="input_holder" className="full">
-        <InputText
-          required
-          minLength={4}
-          type={type}
-          placeholder={placeholder}
-          className="lg:w-full border-0 rounded-l-none bg-gray-900"
-        />
+        {reqornot(req, placeholder, type)}
       </div>
     </div>
   );
@@ -27,8 +39,8 @@ function Inputs({ placeholder, type, ico, clas }) {
 function RegisterHandler(data, navigate, toast, setIco, setBtnState) {
   data.preventDefault();
   const username = document.forms[0][0].value;
-  const email = document.forms[0][1].value,
-    password = document.forms[0][2].value,
+  const email = document.forms[0][2].value,
+    password = document.forms[0][1].value,
     Endpoint = "http://localhost:5000/register";
   axios
     .post(Endpoint, {
