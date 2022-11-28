@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import Header from "./components/navbar";
 import Footer from "./components/footer";
-import { useRef } from "react";
 import { Button } from "primereact/button";
 import message from "./public/images/message.png";
 import workingico from "./public/images/Team_work_Two_Color.svg";

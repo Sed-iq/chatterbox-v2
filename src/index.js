@@ -7,6 +7,7 @@ import "./public/tailwind.css";
 import "primeflex/primeflex.css";
 import PrimeReact from "primereact/api";
 import "./public/design.css";
+import "./public/dashboard_design.css";
 
 import App from "./App";
 PrimeReact.ripple = true;

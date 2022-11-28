@@ -42,15 +42,56 @@ function RegisterHandler(data, navigate, toast, setIco, setBtnState) {
   const email = document.forms[0][2].value,
     password = document.forms[0][1].value,
     Endpoint = "http://localhost:5000/register";
-  axios
-    .post(Endpoint, {
-      username,
-      password,
-      email,
-    })
-    .then(({ data }) => {
-      if (data.auth === true) navigate("/login");
-      else {
+  const charexp = /[?/<>,.:"'{}\[\]!@#$%$^&*()_+=~]/;
+  const spc = /[\s ]/g;
+  const digit = /[\d]/g;
+  console.log(digit.test(username));
+  if (username == "" || password == "") {
+    toast.current.show({
+      className: "sm:text-sm text-black text-xs",
+      severity: "error",
+      summary: "Username or password can't empty",
+    });
+  } else if (digit.test(username)) {
+    toast.current.show({
+      className: "sm:text-sm text-black text-xs",
+      severity: "error",
+      summary: "No digits allowed in Username",
+    });
+  } else if (spc.test(username)) {
+    toast.current.show({
+      className: "sm:text-sm text-black text-xs",
+      severity: "error",
+      summary: "Username cannot have space",
+    });
+  } else if (charexp.test(username)) {
+    toast.current.show({
+      className: "sm:text-sm text-black text-xs",
+      severity: "error",
+      summary: "Username should not have special characters",
+    });
+  } else if (/(\s+)$/.test(username)) {
+  } else {
+    axios
+      .post(Endpoint, {
+        username,
+        password,
+        email,
+      })
+      .then(({ data }) => {
+        if (data.auth === true) navigate("/login");
+        else {
+          setBtnState(false);
+          setIco("");
+          toast.current.show({
+            className: "sm:text-sm text-black text-xs",
+            severity: "error",
+            detail: "There seems to be an error",
+            summary: "Error Registering you",
+          });
+        }
+      })
+      .catch((err) => {
         setBtnState(false);
         setIco("");
         toast.current.show({
@@ -59,18 +100,8 @@ function RegisterHandler(data, navigate, toast, setIco, setBtnState) {
           detail: "There seems to be an error",
           summary: "Error Registering you",
         });
-      }
-    })
-    .catch((err) => {
-      setBtnState(false);
-      setIco("");
-      toast.current.show({
-        className: "sm:text-sm text-black text-xs",
-        severity: "error",
-        detail: "There seems to be an error",
-        summary: "Error Registering you",
       });
-    });
+  }
 }
 
 function SubmitHandler(data, navigate, toast, setIco, setBtnState) {

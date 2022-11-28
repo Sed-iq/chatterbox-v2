@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Verify from "./components/verify";
 import Axios from "axios";
+import Sidebar from "./components/options";
+import View from "./components/mainoutput";
 function GetUserData(setState) {
   const Endpoint = "http://localhost:5000/dashboard";
   Axios.post(
@@ -23,61 +25,20 @@ function GetUserData(setState) {
 function Body({ data }) {
   return data.userData == null ? (
     <div>
-      <p>Erorr loading assets</p> {localStorage.removeItem("token")}
+      <p>Erorr loading assets</p> {localStorage.clear()}
     </div>
   ) : (
-    <div>
-      <p>{data.error}</p>
-      <h2>Dashboard</h2>
-      <button
-        onClick={() => {
-          Logout(data);
-        }}
-      >
-        Logout
-      </button>{" "}
-      <button
-        onClick={() => {
-          data.navigate("/chats");
-        }}
-      >
-        Chats
-      </button>
-      <br /> <br />{" "}
-      <button
-        onClick={() => {
-          deleteACC(data);
-        }}
-      >
-        Delete Account
-      </button>
-      <br /> <br />
-      <button
-        onClick={() => {
-          GenerateLink(data, data.setError);
-        }}
-      >
-        Generate Anonymous Link
-      </button>
-      <p>
-        <b>User data:</b>
-      </p>
-      <span>
-        <b>Name:</b>
-        {data.userData.username}
-      </span>
-      <br />
-      <span>
-        <b>Email:</b>
-        {data.userData.email}
-      </span>
-      <br />
-      <span>
-        <b>Anonymous Links:</b>
-      </span>
-      <br />
-      <small>{LinksParser(data.userData.links, data)}</small>
-    </div>
+    <>
+      <h2 className="neon absolute right-4 top-2"> Chatterbox v2</h2>
+      <div id="dashboard" className="h-screen">
+        <div id="options-tab" className="">
+          <Sidebar />
+        </div>
+        <div id="options-output" className="">
+          <View data={data} />
+        </div>
+      </div>
+    </>
   );
 }
 

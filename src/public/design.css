@@ -1,5 +1,7 @@
 :root {
   --bg-col: #251e3e;
+  --component-color: #49657b;
+  --lighter-component-color: #d4e2f0;
   --darker: #051e3e;
 }
 
@@ -166,7 +168,89 @@ img {
   font-size: 1.4em;
 }
 
+#options-tab {
+  display: none;
+}
+
 @media (min-width: 1024px) {
+  #dashboard {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: #313030;
+  }
+  #dashboard #options-tab {
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  #dashboard #options-tab #sidebar {
+    background: rgba(75, 75, 75, 0.575);
+    border-radius: 10px;
+    width: 80px;
+    min-height: 100px;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  #dashboard #options-tab #sidebar .ico {
+    margin: 0.3em 0em;
+    padding: 0em 0.5em;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.5s all ease-in-out;
+  }
+  #dashboard #options-tab #sidebar .ico:hover {
+    background-color: rgba(0, 0, 0, 0.671);
+  }
+  #dashboard #options-tab #sidebar img {
+    width: 40px;
+  }
+  #dashboard #options-tab #sidebar #add {
+    border-radius: 150%;
+    background-color: rgb(0, 116, 145);
+    transition: 0.5s all ease-in-out;
+  }
+  #dashboard #options-tab #sidebar #add:hover {
+    transform: scale(1.2);
+    background-color: blue;
+  }
+  #dashboard #options-output {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  #dashboard #options-output #view {
+    background: rgba(75, 75, 75, 0.575);
+    margin-left: 2em;
+    overflow-y: auto;
+    border-radius: 10px;
+    padding: 1em 0.7em;
+    height: 450px;
+    width: 500px;
+  }
+  #dashboard #options-output #view #chat-list-header {
+    border-bottom: 2px solid rgb(189, 189, 189);
+  }
+  #dashboard #options-output #view #chat-list {
+    margin: 0.6em 0em;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  #dashboard #options-output #view #chat-list .chat-list-item {
+    display: inline-block;
+  }
+  #dashboard #options-output #view #chat-list .chat-list-item .chat-color-icon {
+    margin: 0.1em 0em;
+    color: var(--bg-col);
+  }
   .full {
     width: 100%;
   }
