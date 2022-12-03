@@ -173,6 +173,27 @@ img {
 }
 
 @media (min-width: 1024px) {
+  #profile-holder {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 50%;
+  }
+  #profile-holder #profile-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(27, 27, 27);
+    width: 100px;
+    height: 100px;
+  }
+  #recent-chats #hori-chat-list {
+    transition: 0.2s all ease-in;
+    display: none;
+  }
+  #recent-chats #hori-chat-list:hover {
+    background-color: rgba(61, 61, 61, 0.822);
+  }
   #dashboard {
     display: flex;
     flex-direction: row;
@@ -232,8 +253,12 @@ img {
     overflow-y: auto;
     border-radius: 10px;
     padding: 1em 0.7em;
-    height: 450px;
-    width: 500px;
+    height: 550px;
+    width: 600px;
+  }
+  #dashboard #options-output #view #chat-list-container {
+    height: 100%;
+    overflow-y: auto;
   }
   #dashboard #options-output #view #chat-list-header {
     border-bottom: 2px solid rgb(189, 189, 189);
