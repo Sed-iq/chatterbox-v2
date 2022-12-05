@@ -5,7 +5,7 @@ import Axios from "axios";
 import { useRef } from "react";
 import Body from "./components/chatBody";
 
-function starter(link, navigate, setDone, setChat) {
+function starter(link, navigate, setDone, setChat, setLog) {
   // Verifies token and assembles chat
   const Endpoint = `http://localhost:5000/anon/${link}`;
   Axios.post(
@@ -22,6 +22,7 @@ function starter(link, navigate, setDone, setChat) {
   )
     .then(({ data }) => {
       if (data.auth !== true) localStorage.setItem("senders_token", data.token);
+      else if (data.accessToken === localStorage.getItem("token")) setLog(true);
       const { chats } = data;
       setChat(chats);
       setDone(true);
@@ -33,18 +34,19 @@ function starter(link, navigate, setDone, setChat) {
 function Main() {
   const [done, Done] = useState(null);
   const [chats, setChat] = useState([]);
+  const [_logged, setLog] = useState(false);
   const isMounted = useRef();
   var socket = useRef();
   const navigate = useNavigate();
   const { link } = useParams();
   useEffect(() => {
     if (!isMounted) return (isMounted.current = true);
-    starter(link, navigate, Done, setChat);
+    starter(link, navigate, Done, setChat, setLog);
   }, [navigate, link]);
   return done === null ? (
     <p>Loading chats...</p>
   ) : (
-    <Body chats={chats} setChat={setChat} socket={socket} />
+    <Body chats={chats} setChat={setChat} socket={socket} isLog={_logged} />
   );
 }
 

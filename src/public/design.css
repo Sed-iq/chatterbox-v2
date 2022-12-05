@@ -3,6 +3,8 @@
   --component-color: #49657b;
   --lighter-component-color: #d4e2f0;
   --darker: #051e3e;
+  --chat-gray: rgba(75, 75, 75, 0.575);
+  --bg-gray: #313030;
 }
 
 @font-face {
@@ -56,7 +58,31 @@ img {
   display: none;
 }
 
+#chat_space {
+  background-color: var(--bg-gray);
+}
+
 @media (min-width: 640px) {
+  #chat_space {
+    height: auto;
+  }
+  #chat_container {
+    height: 600px;
+    width: 70%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  #chat_container #header {
+    height: 11%;
+  }
+  #chat_container #chats {
+    height: 78%;
+    border: 2px solid;
+  }
+  #chat_container #message_sender {
+    height: 11%;
+    border: 2px solid;
+  }
   #logo img {
     width: 30px;
   }
@@ -75,6 +101,9 @@ img {
   }
 }
 @media (min-width: 572px) and (max-width: 639px) {
+  #chat_container {
+    width: 70%;
+  }
   #intro h2 {
     margin: 0em 2em;
   }
@@ -172,12 +201,18 @@ img {
   display: none;
 }
 
+#chat_container {
+  background-color: var(--chat-gray);
+}
+
 @media (min-width: 1024px) {
+  #chat_container {
+    width: 600px;
+  }
   #profile-holder {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    width: 50%;
+    width: 80%;
   }
   #profile-holder #profile-icon {
     display: flex;
@@ -198,7 +233,7 @@ img {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    background-color: #313030;
+    background-color: var(--bg-gray);
   }
   #dashboard #options-tab {
     width: 100px;
@@ -248,7 +283,7 @@ img {
     align-items: flex-start;
   }
   #dashboard #options-output #view {
-    background: rgba(75, 75, 75, 0.575);
+    background: var(--chat-gray);
     margin-left: 2em;
     overflow-y: auto;
     border-radius: 10px;

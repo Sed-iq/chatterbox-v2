@@ -67,32 +67,5 @@ function Main() {
     return <Body data={{ userData, setData, error, setError, navigate }} />;
   else return <div>Loading...</div>;
 }
-function GenerateLink({ userData, setData, setError }) {
-  const Endpoint = "http://localhost:5000/generate";
-  Axios.put(
-    Endpoint,
-    {},
-    {
-      headers: {
-        "x-access-token": localStorage.getItem("token"),
-      },
-    }
-  )
-    .then(({ data }) => {
-      if (data.auth === false && data.message) setError(data.message);
-      else if (data.auth === true && !data.message) {
-        userData.links.push(data.newCode);
-        let newdata = {
-          username: userData.username,
-          email: userData.email,
-          links: userData.links,
-        };
-        setData(newdata);
-      } else setError("Cannot generate link error has occurred");
-    })
-    .catch((err) => {
-      setError("Cannot generate link error has occurred");
-    });
-}
 
 export default Main;
