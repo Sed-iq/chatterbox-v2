@@ -1,14 +1,19 @@
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
+import logo from "./../public/images/chatter_box_logo_white.svg";
 import { Link, useNavigate } from "react-router-dom";
 function ChatList({ links }) {
   const navigate = useNavigate();
   const toast = useRef();
   return (
-    <div id="chat-list">
+    <div id="cover">
       {/* Header */}
       <div id="chat-list-header" className=" text-base pb-2 px-2 neon">
         Chats
+      </div>
+      <div id="mobile-header" className="neon">
+        <img src={logo} alt="" />
+        <p>Chattebox v2</p>
       </div>
       <div id="chat-list">
         {links.map((item, index) => {
@@ -66,7 +71,7 @@ function ChatList({ links }) {
 }
 const genConfirm = (toast, newLink) => {
   var textField = document.createElement("textarea");
-  textField.innerText = `This a chat link generated from chatterbox v2, http://localhost:3000/anon/${newLink} (You don't have to login to use it)`;
+  textField.innerText = `This is my chat link generated from chatterbox v2, http://localhost:3000/anon/${newLink} (You don't have to login to use it)`;
   document.body.appendChild(textField);
   textField.select();
   document.execCommand("copy");

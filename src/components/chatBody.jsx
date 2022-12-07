@@ -1,6 +1,9 @@
 import { io } from "socket.io-client";
 import Savechat from "./saveChat";
-import { useEffect, useState } from "react";
+import ReactTimeAgo from "react-time-ago";
+import EmptyChatIco from "./../public/images/empty-chats.svg";
+import React, { useEffect, useRef, useState } from "react";
+import Loading from "./loading";
 import { useParams, useNavigate } from "react-router-dom";
 function Body({ chats, setChat, socket, isLog }) {
   const { link } = useParams();
@@ -8,6 +11,7 @@ function Body({ chats, setChat, socket, isLog }) {
   const [message, setMessage] = useState("");
   const [online, setOnline] = useState(false);
   const [show, setAuth] = useState(false);
+  const toast = useRef();
   // Socket handlings
   useEffect(() => {
     try {
@@ -29,11 +33,19 @@ function Body({ chats, setChat, socket, isLog }) {
       if (d) {
         socket.current.emit("join", link, (m, on) => {
           if (m) {
-            if (on == true) setOnline(true);
+            console.log(on);
+            if (on == true) {
+              setOnline(true);
+              socket.current.on("online", (x) => {
+                setAuth(true);
+                setOnline(x);
+              });
+            } else {
+              socket.current.on("online", (x) => {
+                setOnline(x);
+              });
+            }
             setAuth(true);
-            socket.current.on("online", (x) => {
-              setOnline(x);
-            });
           } else navigate("/chaterror");
         });
       }
@@ -43,21 +55,13 @@ function Body({ chats, setChat, socket, isLog }) {
   //   Getting messages
   useEffect(() => {
     socket.current.on("broadcast", (data) => {
-      if (data.senders_token !== null)
-        setChat((prev) => [
-          ...prev,
-          {
-            senders_token: data.senders_token,
-            message: data.message,
-            date: new Date(),
-          },
-        ]);
+      if (data.senders_token !== null) setChat((prev) => [...prev, data]);
       else navigate("/error");
     });
   }, [socket, setChat, navigate]);
 
   return show == false ? (
-    <h2> Please Wait... </h2>
+    <Loading text={"Please wait..."} icon={"pi-spin pi-spinner"} />
   ) : (
     <div>
       <ChatBody
@@ -66,21 +70,54 @@ function Body({ chats, setChat, socket, isLog }) {
         chats={chats}
         navigate={navigate}
         login={isLog}
+        message={message}
+        setMessage={setMessage}
+        socket={socket}
+        setChat={setChat}
+        toast={toast}
+        ReactTimeAgo={ReactTimeAgo}
+        emptyIco={EmptyChatIco}
       />
-      {/*{parser(chats)}*/}
     </div>
   );
 }
 
-function ChatBody({ link, online, login, navigate, chats }) {
+function ChatBody({
+  link,
+  online,
+  login,
+  navigate,
+  chats,
+  message,
+  setMessage,
+  socket,
+  ReactTimeAgo,
+  setChat,
+  emptyIco,
+}) {
+  const msgRef = useRef();
+  useEffect(() => {
+    if (msgRef.current) {
+      msgRef.current.scroll({
+        top: msgRef.current.scrollHeight,
+        left: 0,
+        behaviour: "smooth",
+      });
+    }
+  }, [chats]);
   return (
     <>
-      <h2 className="sm:absolute right-2 top-2 neon">Chatterbox v2</h2>
+      <h2 id="ch-icon" className="sm:absolute right-2 top-2 neon">
+        Chatterbox v2
+      </h2>
       <div
         id="chat_space"
-        className=" sm:flex h-screen sm:justify-center  sm:items-center"
+        className=" sm:flex sm:h-screen sm:justify-center sm:items-center"
       >
-        <div id="chat_container" className=" p-3 rounded sm:w-96 text-white">
+        <div
+          id="chat_container"
+          className=" sm:p-3 sm:rounded sm:w-96 text-white"
+        >
           <div
             id="header"
             className=" sm:py-1 border-b-2 sm:flex sm:flex-row justify-between"
@@ -113,69 +150,105 @@ function ChatBody({ link, online, login, navigate, chats }) {
               )}
             </div>
           </div>
-          <div id="chats">
-            {parser(chats)} {/* Chats */}
+          <div id="chats" ref={msgRef}>
+            {chats == "" ? (
+              <NomsgRender ico={emptyIco} />
+            ) : (
+              <MsgRender ReactTimeAgo={ReactTimeAgo} chats={chats} />
+            )}
+
+            {/* Chats */}
           </div>
-          <div id="message_sender"></div>
+          <div id="message_sender">
+            <textarea
+              value={message}
+              placeholder="Write a message"
+              onChange={(e) => setMessage(e.target.value)}
+            ></textarea>
+            <div
+              id="sender"
+              onClick={() =>
+                SendMessage(
+                  socket,
+                  setMessage,
+                  message,
+                  setChat,
+                  navigate,
+                  link
+                )
+              }
+              className=""
+            >
+              <i className="pi pi-send text-xl"></i>
+            </div>
+          </div>
         </div>
       </div>
     </>
   );
 }
-
-function SendMessage(socket, setMessage, message, setChat, navigate, link) {
-  socket.current.emit(
-    "message",
-    {
-      senders_token: localStorage.getItem("senders_token"),
-      message,
-      $token: localStorage.getItem("token"),
-    },
-    (data) => {
-      setChat((prev) => [
-        ...prev,
-        {
-          senders_token: data.senders_token,
-          message: data.message,
-          date: new Date(),
-        },
-      ]);
-      //   Saving chats
-      Savechat(
-        {
-          senders_token: data.senders_token,
-          message: data.message,
-          date: new Date(),
-        },
-        navigate,
-        link
-      );
-      setMessage("");
-    }
+function MsgRender({ chats, ReactTimeAgo }) {
+  return <>{parser(chats, ReactTimeAgo)}</>;
+}
+function NomsgRender({ ico }) {
+  return (
+    <div className="h-full flex flex-col justify-center items-center">
+      <div>
+        <img alt="" srcset={ico} />
+      </div>
+      <p className=" my-3">No chats...</p>
+    </div>
   );
 }
-function parser(arr) {
+function SendMessage(socket, setMessage, message, setChat, navigate, link) {
+  if (message.trim().length === 0) {
+  } else
+    socket.current.emit(
+      "message",
+      {
+        senders_token: localStorage.getItem("senders_token"),
+        message: message.trim(),
+        $token: localStorage.getItem("token"),
+      },
+      (data) => {
+        setChat((prev) => [...prev, data]);
+        // Saving chats
+        Savechat(
+          {
+            senders_token: data.senders_token,
+            message: data.message,
+            date: new Date(),
+          },
+          navigate,
+          link
+        );
+        setMessage("");
+      }
+    );
+}
+function parser(arr, ReactTimeAgo) {
   if (arr == "") return;
   else {
     return arr.map((item, index) => {
       return item.senders_token == localStorage.getItem("senders_token") ? (
-        <p key={index} id="me">
-          {item.message}
-        </p>
+        <div id="chat_holder" key={index}>
+          <div id="me">
+            <p id="time" className="pb-2 text-xs ">
+              <ReactTimeAgo date={item.date} locale="en-US" />
+            </p>
+            <p className="text-sm">{item.message}</p>
+          </div>
+        </div>
       ) : (
-        <p key={index} id="other">
-          {item.message}{" "}
-        </p>
+        <div key={index} id="chat_holder">
+          <div id="other">
+            <p id="time" className="pb-2 text-xs ">
+              <ReactTimeAgo date={item.date} locale="en-US" />
+            </p>
+            <p className="text-sm">{item.message}</p>
+          </div>
+        </div>
       );
-      //  item.senders_token == localStorage.getItem("senders_token") ? (
-      //   <p key={index} id="me">
-      //     {item.message}
-      //   </p>
-      // ) : (
-      //   <p key={index} id="other">
-      //     {item.message}{" "}
-      //   </p>
-      // );
     });
   }
 }

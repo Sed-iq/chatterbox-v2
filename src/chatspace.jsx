@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Axios from "axios";
 import { useRef } from "react";
 import Body from "./components/chatBody";
+import Loading from "./components/loading";
 
 function starter(link, navigate, setDone, setChat, setLog) {
   // Verifies token and assembles chat
@@ -44,7 +45,7 @@ function Main() {
     starter(link, navigate, Done, setChat, setLog);
   }, [navigate, link]);
   return done === null ? (
-    <p>Loading chats...</p>
+    <Loading text={"Loading..."} icon={"pi-spin pi-spinner "} />
   ) : (
     <Body chats={chats} setChat={setChat} socket={socket} isLog={_logged} />
   );

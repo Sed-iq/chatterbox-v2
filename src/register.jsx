@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import verify from "./components/verify";
 import Input from "./components/form_disp";
 import ico from "./public/images/undraw_loving_story_re_wo5x.svg";
-import Axios from "axios";
 function RegisterView({ navigate }) {
   var illus_text = (
     <h2 className="lg:text-3xl text lg:py-5">
@@ -26,12 +25,7 @@ function RegisterView({ navigate }) {
     />
   );
 }
-{
-  /* <h2 className="lg:text-3xl text lg:py-5">
-              Login to your account and explore so{" "}
-              <span className="p-2 neon bg-indigo-500 rounded">More</span>{" "}
-            </h2> */
-}
+
 function Main() {
   const [auth, setAuth] = useState(null);
   const navigate = useNavigate();

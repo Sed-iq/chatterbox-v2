@@ -5,7 +5,8 @@ import Axios from "axios";
 import Sidebar from "./components/options";
 import View from "./components/mainoutput";
 import ChatList from "./components/chatList";
-
+import Bar from "./components/lowerBar";
+import Loading from "./components/loading";
 function GetUserData(setState) {
   const Endpoint = "http://localhost:5000/dashboard";
   Axios.post(
@@ -31,11 +32,18 @@ function Body({ data }) {
   );
   return data.userData == null ? (
     <div>
-      <p>Erorr loading assets, please reload tab...</p> {localStorage.clear()}
+      <Loading
+        text={"Error loading data, please reload tab..."}
+        icon={"pi-exclamation-triangle"}
+      />{" "}
+      {localStorage.clear()}
     </div>
   ) : (
     <>
-      <h2 className="neon absolute right-4 top-2"> Chatterbox v2</h2>
+      <h2 id="disp" className="neon absolute right-4 top-2">
+        {" "}
+        Chatterbox v2
+      </h2>
       <div id="dashboard" className="h-screen">
         <div id="options-tab" className="">
           <Sidebar
@@ -47,6 +55,14 @@ function Body({ data }) {
         </div>
         <div id="options-output" className="">
           <View data={data} view={optView} changeView={setView} />
+        </div>
+        <div id="MobileBar">
+          <Bar
+            data={data}
+            links={links}
+            setLinks={setLinks}
+            changeView={setView}
+          />
         </div>
       </div>
     </>
@@ -65,7 +81,7 @@ function Main() {
   if (auth === false) navigate("/login");
   else if (auth === true && userData !== null)
     return <Body data={{ userData, setData, error, setError, navigate }} />;
-  else return <div>Loading...</div>;
+  else return <Loading text={"Loading..."} icon={"pi-spin pi-spinner"} />;
 }
 
 export default Main;

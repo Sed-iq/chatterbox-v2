@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import logo from "./../public/images/chatter_box_logo_white.svg";
 import { Toast } from "primereact/toast";
 import Axios from "axios";
 function date(x) {
@@ -39,8 +40,17 @@ function Main({ links, setLink, userData }) {
   const [codes, setCodes] = useState([...links]);
   const toast = useRef();
   return (
-    <div className=" m-2">
-      <div className="neon my-3">settings</div>
+    <div className=" xl:m-2">
+      <div id="chat-list-header" className="neon my-3">
+        Settings
+      </div>
+      <div
+        id="mobile-header"
+        className="neon flex justify-center items-center py-2"
+      >
+        <img srcSet={logo} alt="" />
+        <p>Settings</p>
+      </div>
       <div id="profile-holder" className=" ">
         <div id="profile-icon">
           <i className=" pi pi-user text-5xl"></i>
@@ -63,7 +73,10 @@ function Main({ links, setLink, userData }) {
           </p>
         </div>
       </div>
-      <div id="link-lists" className=" black_north border-b-2 xl:pt-4">
+      <div
+        id="link-lists"
+        className=" black_north mx-3 my-3 lg:m-0 border-b-2 xl:pt-4"
+      >
         <p>Delete a chat link</p>
       </div>
       {/* Lists or chats */}
@@ -78,13 +91,12 @@ function Main({ links, setLink, userData }) {
               let link = target.dataset.links;
               deleteLink(link, setCodes, toast, setLink);
             }}
-            className=" my-3 flex hover:bg-gray-500 p-2 rounded flex-row justify-between"
+            className=" my-3 flex hover:bg-gray-500 p-3 lg:p-2 rounded flex-row justify-between"
           >
             <div className=" flex flex-row">
               <span className="pi pi-circle-fill text-4xl"></span>
               <div className=" flex flex-col mx-2 px-2 justify-between">
                 <h5 className=" text-sm font-extrabold">{item}</h5>
-                <p className=" text-xs font-light">Hey babe...</p>
               </div>
             </div>
             <div className=" flex justify-center items-center">

@@ -4,6 +4,7 @@ import Login from "./login";
 import Dashboard from "./dashboard";
 import Register from "./register";
 import ChatSpace from "./chatspace";
+import Err from "./404";
 function App() {
   return (
     <BrowserRouter>
@@ -13,7 +14,11 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/register" element={<Register />} />
         <Route path="/anon/:link" element={<ChatSpace />} />
-        <Route path="*" element={<h2>404</h2>} />
+        <Route path="*" element={<Err error={"Page not found"} />} />
+        <Route
+          path="/error"
+          element={<Err error={"There seems to be an error with the link"} />}
+        />
       </Routes>
     </BrowserRouter>
   );

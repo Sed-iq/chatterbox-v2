@@ -1,10 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "./components/navbar";
 import Footer from "./components/footer";
 import { Button } from "primereact/button";
+import Verify from "./components/verify";
 import message from "./public/images/message.png";
 import workingico from "./public/images/Team_work_Two_Color.svg";
 import teamArrowIco from "./public/images/Team_arrow.svg";
+import { useEffect, useState } from "react";
+function Main() {
+  const [auth, setAuth] = useState(null);
+  const navigate = useNavigate();
+  useEffect(() => {
+    Verify(setAuth);
+  }, [auth]);
+
+  if (auth === true) navigate("/dashboard");
+  else if (auth === false) return <App />;
+  else if (auth === null) return <></>;
+}
 function App() {
   return (
     <>
@@ -52,7 +65,7 @@ function App() {
         <>
           <h2
             id="title-phone"
-            className="lg:text-2xl md:text-xl sm:p-0  text-lg black_north"
+            className="lg:text-2xl md:text-xl  text-lg black_north"
           >
             One Click link
             <span className="p-2 neon bg-indigo-500 rounded">
@@ -143,11 +156,4 @@ function App() {
   );
 }
 
-export default App;
-// {
-//   /* <div>
-// <Link to={"/login"}>Login</Link> <br />
-// <Link to={"/register"}>Register</Link> <br />
-// <Link to={"/dashboard"}>Dashboard</Link> <br />
-// </div> */
-// }
+export default Main;

@@ -1,62 +1,21 @@
-import logo from "./../public/images/chatter_box_logo_white.svg";
+import ChatList from "./chatList";
 import Axios from "axios";
 import { Toast } from "primereact/toast";
 import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
 import React, { useRef } from "react";
-import ChatList from "./chatList";
 import SettingsView from "./settingsView";
-function deleteACC(navigate, toast) {
-  const Endpoint = "http://localhost:5000/delete";
-  Axios.delete(Endpoint, {
-    headers: {
-      "x-access-token": localStorage.getItem("token"),
-    },
-  })
-    .then(({ data }) => {
-      if (data.auth == true) {
-        localStorage.removeItem("token");
-        navigate("/");
-      } else {
-        toast.current.show({
-          severity: "error",
-          summary: "Error deleting account",
-        });
-      }
-    })
-    .catch((err) =>
-      toast.current.show({
-        severity: "error",
-        summary: "Error deleting account",
-      })
-    );
-}
-async function Logout({ navigate }, toast) {
-  // Dispatches
-  try {
-    localStorage.removeItem("token");
-    navigate("/login");
-  } catch (err) {
-    toast.current.show({
-      severity: "error",
-      summary: "Erorr logging out",
-    });
-  }
-}
-const Options = ({ data, changeView, links, setLinks }) => {
+const Bar = ({ data, changeView, links, setLinks }) => {
   const toast = useRef();
   return (
-    <div id="sidebar" className="p-3">
-      <div className=" bg-gray-900 p-1 px-2 rounded">
-        <img srcSet={logo} alt="" title="Chatterbox v2" />
-      </div>
+    <div id="bar">
       <div
-        className="ico"
         onClick={() => changeView(<ChatList links={links} />)}
+        id="home"
+        className="flex justify-center items-center"
       >
-        <i className="pi pi-home my-3 text-2xl"></i>
+        <i className="pi pi-home text-xl md:text-2xl"></i>
       </div>
       <div
-        className="ico"
         onClick={() =>
           changeView(
             <SettingsView
@@ -66,35 +25,42 @@ const Options = ({ data, changeView, links, setLinks }) => {
             />
           )
         }
+        id="settings"
+        className="flex justify-center items-center"
       >
-        <i className="pi pi-cog my-3 text-2xl"></i>
+        <i className="pi pi-cog text-xl md:text-2xl"></i>
       </div>
       <div
-        className=""
+        id="add"
         onClick={(e) => {
           GenerateLink(toast, setLinks, changeView, e, links);
         }}
+        className="flex bg-blue-600 px-3 py-2 justify-center items-center"
       >
-        <i id="add" className="pi pi-plus py-3 px-3 text-xl"></i>
-      </div>
-      <div className="ico" onClick={() => Logout(data, toast)}>
-        {/* Logout */}
-        <i className="pi pi-sign-out my-3 text-2xl"></i>
+        <i className="pi pi-plus text-base md:text-2xl"></i>
       </div>
       <div
-        className="ico"
+        id="logout"
+        onClick={() => Logout(data, toast)}
+        className="flex justify-center items-center"
+      >
+        <i className="pi pi-sign-out text-xl md:text-2xl"></i>
+      </div>{" "}
+      <div
+        id="delete"
         onClick={(e) => {
           confim(e, data.navigate, toast, deleteACC);
         }}
+        className="flex justify-center items-center"
       >
-        {/* Delete account */}
-        <i className="pi pi-trash text-red-600 my-3 text-2xl"></i>
+        <i className="pi pi-trash text-red-400 text-xl md:text-2xl"></i>
       </div>
-      <ConfirmPopup />
       <Toast ref={toast} />
+      <ConfirmPopup />
     </div>
   );
 };
+
 function GenerateLink(toast, setLinks, changeView, event, links) {
   const Endpoint = "http://localhost:5000/generate";
   Axios.put(
@@ -153,6 +119,43 @@ const genConfirm = (event, toast, newLink) => {
     reject: (c) => {},
   });
 };
+function deleteACC(navigate, toast) {
+  const Endpoint = "http://localhost:5000/delete";
+  Axios.delete(Endpoint, {
+    headers: {
+      "x-access-token": localStorage.getItem("token"),
+    },
+  })
+    .then(({ data }) => {
+      if (data.auth == true) {
+        localStorage.removeItem("token");
+        navigate("/");
+      } else {
+        toast.current.show({
+          severity: "error",
+          summary: "Error deleting account",
+        });
+      }
+    })
+    .catch((err) =>
+      toast.current.show({
+        severity: "error",
+        summary: "Error deleting account",
+      })
+    );
+}
+async function Logout({ navigate }, toast) {
+  // Dispatches
+  try {
+    localStorage.removeItem("token");
+    navigate("/login");
+  } catch (err) {
+    toast.current.show({
+      severity: "error",
+      summary: "Erorr logging out",
+    });
+  }
+}
 const confim = (event, navigate, toast, func) => {
   confirmPopup({
     target: event.target,
@@ -162,5 +165,4 @@ const confim = (event, navigate, toast, func) => {
     reject: () => {},
   });
 };
-
-export default Options;
+export default Bar;

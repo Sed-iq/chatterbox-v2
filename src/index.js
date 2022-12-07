@@ -8,8 +8,10 @@ import "primeflex/primeflex.css";
 import PrimeReact from "primereact/api";
 import "./public/design.css";
 import "./public/dashboard_design.css";
-
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en.json";
 import App from "./App";
 PrimeReact.ripple = true;
+TimeAgo.addDefaultLocale(en);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App />);
