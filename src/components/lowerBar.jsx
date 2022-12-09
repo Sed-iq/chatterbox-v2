@@ -102,6 +102,7 @@ function GenerateLink(toast, setLinks, changeView, event, links) {
 const genConfirm = (event, toast, newLink) => {
   confirmPopup({
     target: event.target,
+    className: "text-xs",
     message: `Would like to copy your new link (${newLink}), and share to the target?`,
     accept: () => {
       var textField = document.createElement("textarea");

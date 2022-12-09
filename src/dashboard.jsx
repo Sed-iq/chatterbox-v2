@@ -19,23 +19,22 @@ function GetUserData(setState) {
     }
   )
     .then(({ data }) => {
-      setState(data.data);
+      if (data.auth === true) setState(data.data);
+      else setState(false);
     })
     .catch((err) => {
+      setState(null);
       console.log(err);
     });
 }
-function Body({ data }) {
+function Body({ data, navigate }) {
   const [links, setLinks] = useState(data.userData.links);
   const [optView, setView] = useState(
     <ChatList links={links} setLinks={setLinks} />
   );
-  return data.userData == null ? (
+  return data.userData == false ? (
     <div>
-      <Loading
-        text={"Error loading data, please reload tab..."}
-        icon={"pi-exclamation-triangle"}
-      />{" "}
+      {navigate("/login")}
       {localStorage.clear()}
     </div>
   ) : (
@@ -80,7 +79,12 @@ function Main() {
   }, [navigate]);
   if (auth === false) navigate("/login");
   else if (auth === true && userData !== null)
-    return <Body data={{ userData, setData, error, setError, navigate }} />;
+    return (
+      <Body
+        data={{ userData, setData, error, setError, navigate }}
+        navigate={navigate}
+      />
+    );
   else return <Loading text={"Loading..."} icon={"pi-spin pi-spinner"} />;
 }
 

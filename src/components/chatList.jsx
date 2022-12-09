@@ -16,18 +16,24 @@ function ChatList({ links }) {
         <p>Chattebox v2</p>
       </div>
       <div id="chat-list">
-        {links.map((item, index) => {
-          return (
-            <Link
-              to={`/anon/${item}`}
-              key={index}
-              className="chat-list-item mx-3"
-            >
-              <div className="chat-color-icon pi pi-circle-fill text-4xl w-full text-center"></div>
-              <p className="uruoob text-2xl ">{item}</p>
-            </Link>
-          );
-        })}
+        {links == "" ? (
+          <p className="p-4 text-sm black_north">
+            No chats found, add a new chat link...
+          </p>
+        ) : (
+          links.map((item, index) => {
+            return (
+              <Link
+                to={`/anon/${item}`}
+                key={index}
+                className="chat-list-item mx-3"
+              >
+                <div className="chat-color-icon pi pi-circle-fill text-4xl w-full text-center"></div>
+                <p className="uruoob text-2xl ">{item}</p>
+              </Link>
+            );
+          })
+        )}
       </div>
       <div id="recent-chats" className="my-4">
         <p className=" text-base my-2 font-bold">All Chats</p>

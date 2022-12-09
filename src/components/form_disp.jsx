@@ -70,7 +70,6 @@ function RegisterHandler(data, navigate, toast, setIco, setBtnState) {
       severity: "error",
       summary: "Username should not have special characters",
     });
-  } else if (/(\s+)$/.test(username)) {
   } else {
     axios
       .post(Endpoint, {
@@ -86,8 +85,7 @@ function RegisterHandler(data, navigate, toast, setIco, setBtnState) {
           toast.current.show({
             className: "sm:text-sm text-black text-xs",
             severity: "error",
-            detail: "There seems to be an error",
-            summary: "Error Registering you",
+            summary: data.message || "Error Registering you",
           });
         }
       })
