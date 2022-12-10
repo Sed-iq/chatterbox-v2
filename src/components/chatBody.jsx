@@ -15,7 +15,7 @@ function Body({ chats, setChat, socket, isLog }) {
   // Socket handlings
   useEffect(() => {
     try {
-      socket.current = io("ws://chatterbox-v2-api.vercel.app", {
+      socket.current = io("https://chatterbox-v2-api.vercel.app", {
         auth: {
           $token: localStorage.getItem("senders_token"),
           $link: link,
