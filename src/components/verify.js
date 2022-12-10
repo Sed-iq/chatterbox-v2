@@ -1,7 +1,7 @@
 // Verifies if user should see someting
 import Axios from "axios";
 function App(setState) {
-  const Endpoint = "http://localhost:5000/validate";
+  const Endpoint = "https://chatterbox-v2-api.vercel.app/validate";
   Axios.post(
     Endpoint,
     {},

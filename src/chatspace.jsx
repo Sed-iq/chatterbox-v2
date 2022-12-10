@@ -8,7 +8,7 @@ import Loading from "./components/loading";
 
 function starter(link, navigate, setDone, setChat, setLog) {
   // Verifies token and assembles chat
-  const Endpoint = `http://localhost:5000/anon/${link}`;
+  const Endpoint = `https://chatterbox-v2-api.vercel.app/anon/${link}`;
   Axios.post(
     Endpoint,
     {},

@@ -110,7 +110,7 @@ function Main({ links, setLink, userData }) {
   );
 }
 function deleteLink(link, setCodes, toast, setLink) {
-  const Endpoint = `http://localhost:5000/code`;
+  const Endpoint = `https://chatterbox-v2-api.vercel.app/code`;
   Axios.put(
     Endpoint,
     {

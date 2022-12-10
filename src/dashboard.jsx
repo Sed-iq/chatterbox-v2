@@ -8,7 +8,7 @@ import ChatList from "./components/chatList";
 import Bar from "./components/lowerBar";
 import Loading from "./components/loading";
 function GetUserData(setState) {
-  const Endpoint = "http://localhost:5000/dashboard";
+  const Endpoint = "https://chatterbox-v2-api.vercel.app/";
   Axios.post(
     Endpoint,
     {},

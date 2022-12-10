@@ -41,7 +41,7 @@ function RegisterHandler(data, navigate, toast, setIco, setBtnState) {
   const username = document.forms[0][0].value;
   const email = document.forms[0][2].value,
     password = document.forms[0][1].value,
-    Endpoint = "http://localhost:5000/register";
+    Endpoint = "https://chatterbox-v2-api.vercel.app/register";
   const charexp = /[?/<>,.:"'{}\[\]!@#$%$^&*()_+=~]/;
   const spc = /[\s ]/g;
   const digit = /[\d]/g;
@@ -108,7 +108,7 @@ function SubmitHandler(data, navigate, toast, setIco, setBtnState) {
   setBtnState(true);
   const username = document.forms[0][0].value;
   const password = document.forms[0][1].value;
-  const Endpoint = "http://localhost:5000/login";
+  const Endpoint = "https://chatterbox-v2-api.vercel.app/login";
   axios
     .post(
       Endpoint,

@@ -2,7 +2,7 @@ import Axios from "axios";
 
 function App(newChat, navigate, link) {
   let { message, senders_token, date } = newChat;
-  const Endpoint = "http://localhost:5000/saveChat";
+  const Endpoint = "https://chatterbox-v2-api.vercel.app/saveChat";
   Axios.post(
     Endpoint,
     {

@@ -6,7 +6,7 @@ import React, { useRef } from "react";
 import ChatList from "./chatList";
 import SettingsView from "./settingsView";
 function deleteACC(navigate, toast) {
-  const Endpoint = "http://localhost:5000/delete";
+  const Endpoint = "https://chatterbox-v2-api.vercel.app/delete";
   Axios.delete(Endpoint, {
     headers: {
       "x-access-token": localStorage.getItem("token"),
@@ -96,7 +96,7 @@ const Options = ({ data, changeView, links, setLinks }) => {
   );
 };
 function GenerateLink(toast, setLinks, changeView, event, links) {
-  const Endpoint = "http://localhost:5000/generate";
+  const Endpoint = "https://chatterbox-v2-api.vercel.app/generate";
   Axios.put(
     Endpoint,
     {},
@@ -139,7 +139,7 @@ const genConfirm = (event, toast, newLink) => {
     message: `Would like to copy your new link (${newLink}), and share to the target?`,
     accept: () => {
       var textField = document.createElement("textarea");
-      textField.innerText = `This a chat link generated from chatterbox v2, http://localhost:3000/anon/${newLink} (You don't have to login to use it)`;
+      textField.innerText = `This a chat link generated from chatterbox v2, https://chatterbox-v2-api.vercel.app/anon/${newLink} (You don't have to login to use it)`;
       document.body.appendChild(textField);
       textField.select();
       document.execCommand("copy");
