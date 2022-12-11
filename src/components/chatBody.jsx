@@ -16,6 +16,7 @@ function Body({ chats, setChat, socket, isLog }) {
   useEffect(() => {
     try {
       socket.current = io("https://chatterbox-socket.onrender.com", {
+        transports: ["websocket", "polling", "flashsocket"],
         auth: {
           $token: localStorage.getItem("senders_token"),
           $link: link,
