@@ -106,7 +106,7 @@ const genConfirm = (event, toast, newLink) => {
     message: `Would like to copy your new link (${newLink}), and share to the target?`,
     accept: () => {
       var textField = document.createElement("textarea");
-      textField.innerText = `This a chat link generated from chatterbox v2, https://chatterbox-v2-api.vercel.app/anon/${newLink} (You don't have to login to use it)`;
+      textField.innerText = `This a chat link generated from chatterbox v2, https://chatterbox-v2.vercel.app/anon/${newLink} (You don't have to login to use it)`;
       document.body.appendChild(textField);
       textField.select();
       document.execCommand("copy");
