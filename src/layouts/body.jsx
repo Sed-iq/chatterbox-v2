@@ -1,17 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
-import Header from "./components/navbar";
-import Footer from "./components/footer";
+import Header from "../components/navbar";
+import Footer from "../components/footer";
 import { Button } from "primereact/button";
-import Verify from "./components/verify";
-import message from "./public/images/message.png";
-import workingico from "./public/images/Team_work_Two_Color.svg";
-import teamArrowIco from "./public/images/Team_arrow.svg";
+import message from "../img/message.png";
+import workingico from "../img/Team_work_Two_Color.svg";
+import teamArrowIco from "../img/Team_arrow.svg";
 import { useEffect, useState } from "react";
+import { verifyToken } from "../utils/auth_helpers";
 function Main() {
   const [auth, setAuth] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
-    Verify(setAuth);
+    verifyToken(setAuth);
   }, [auth]);
 
   if (auth === true) navigate("/dashboard");
@@ -28,11 +28,10 @@ function App() {
       >
         <>
           <h2
-            id="title-phone"
-            className="lg:text-2xl md:text-xl sm:p-0  text-lg black_north"
+            className="lg:text-2xl md:text-xl text-center px-3 py-2 sm:p-0 text-lg black_north"
           >
             Truly{" "}
-            <span className="p-2 neon bg-indigo-500 rounded">Instant</span>{" "}
+            <span className="px-2.5 py-1 neon bg-indigo-500 rounded">Instant</span>{" "}
             messaging.
           </h2>
           <div id="img_top">
@@ -42,16 +41,16 @@ function App() {
             {/* intro */}
             <h2
               id="title-pc"
-              className="lg:text-2xl md:text-xl sm:p-0 px-10 text-sm black_north"
+              className="lg:text-2xl md:text-xl sm:p-0 text-sm black_north"
             >
               Truly{" "}
               <span className="p-2 neon bg-indigo-500 rounded">Instant</span>{" "}
               messaging.
             </h2>
             {/* Description */}
-            <p id="desc" className="sm:py-4 p-4 ">
+            <p id="desc" className="sm:py-4 md:text-left text-center md:pl-0 p-4">
               Messaging with ease, just with a{" "}
-              <span className="p-2 mb-2 neon bg-indigo-700 rounded">Click</span>{" "}
+              <span className="px-2 py-1 mb-2 neon bg-indigo-500 rounded">Click</span>{" "}
               of a button , you can easily communicate with your target person.
             </p>
           </div>
@@ -64,11 +63,10 @@ function App() {
       >
         <>
           <h2
-            id="title-phone"
-            className="lg:text-2xl md:text-xl  text-lg black_north"
+            className="lg:text-2xl md:text-xl text-center px-3 py-2 text-lg black_north"
           >
             One Click link
-            <span className="p-2 neon bg-indigo-500 rounded">
+            <span className="px-2 py-1 neon bg-indigo-500 rounded">
               Generate
             </span>{" "}
             feature.
@@ -83,15 +81,15 @@ function App() {
               className="lg:text-2xl md:text-xl sm:p-0  text-lg black_north"
             >
               One Click link
-              <span className="p-2 neon bg-indigo-500 rounded">
+              <span className="px-2 py-1 neon bg-indigo-500 rounded">
                 Generate
               </span>{" "}
               feature.
             </h2>
             {/* Description */}
-            <p id="desc" className="sm:py-4 p-4 ">
-              When you register with us , with our one
-              <span className="p-2 m-2 neon bg-indigo-700 rounded">
+            <p id="desc" className="sm:py-4 text-center px-5 py-4 ">
+              When you register with us , with our one {" "}
+              <span className="px-2 py-1 mx-0.5 neon bg-indigo-700 rounded">
                 Click
               </span>{" "}
               feature, you can generate channels which targets can use to send
@@ -110,7 +108,7 @@ function App() {
             className="lg:text-2xl md:text-xl sm:p-0  text-lg black_north"
           >
             One way {""}
-            <span className="p-2 neon bg-indigo-500 rounded">Login</span>{" "}
+            <span className="px-2 py-1 neon bg-indigo-500 rounded">Login</span>{" "}
             system.
           </h2>
           <div id="working_icon">
@@ -123,13 +121,13 @@ function App() {
               className="lg:text-2xl md:text-xl sm:p-0  text-lg black_north"
             >
               One way{" "}
-              <span className="p-2 neon bg-indigo-500 rounded">Login</span>{" "}
+              <span className="px-2 py-1 neon bg-indigo-500 rounded">Login</span>{" "}
               system.
             </h2>
             {/* Description */}
-            <p id="desc" className="sm:py-4 p-4 ">
+            <p id="desc" className="sm:py-4 py-4 px-5 text-center">
               When others click on your link, they don't have to be{" "}
-              <span className="p-2 m-2 neon bg-indigo-700 rounded">
+              <span className="px-2 py-1 neon bg-indigo-700 rounded">
                 Registered
               </span>{" "}
               with us to send you messages.

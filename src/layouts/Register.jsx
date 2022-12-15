@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import verify from "./components/verify";
-import Input from "./components/form_disp";
-import ico from "./public/images/undraw_loving_story_re_wo5x.svg";
+import Input from "../components/form_disp";
+import ico from "../img/undraw_loving_story_re_wo5x.svg";
+import { verifyToken } from "../utils/auth_helpers";
+
 function RegisterView({ navigate }) {
   var illus_text = (
     <h2 className="lg:text-3xl text lg:py-5">
@@ -30,7 +31,7 @@ function Main() {
   const [auth, setAuth] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
-    verify(setAuth);
+    verifyToken(setAuth);
   }, [navigate]);
   if (auth === false) return <RegisterView navigate={navigate} />;
   else if (auth === null) return;

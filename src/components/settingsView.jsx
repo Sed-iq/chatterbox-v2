@@ -1,40 +1,6 @@
 import { useState, useRef } from "react";
-import logo from "./../public/images/chatter_box_logo_white.svg";
+import logo from "../img/chatter_box_logo_white.svg";
 import { Toast } from "primereact/toast";
-import Axios from "axios";
-function date(x) {
-  let _ = new Date(x).getDay();
-  let day;
-  switch (_) {
-    case 0:
-      day = "Sun";
-      break;
-    case 1:
-      day = "Mon";
-      break;
-    case 2:
-      day = "Tue";
-      break;
-    case 3:
-      day = "Wed";
-      break;
-    case 4:
-      day = "Thu";
-      break;
-    case 5:
-      day = "Fri";
-      break;
-    case 6:
-      day = "Sat";
-      break;
-    default:
-      break;
-  }
-  let month = new Date(x).getMonth();
-  let year = new Date(x).getFullYear();
-  let date = new Date(x).getDate();
-  return `${day}, ${date} of ${month} ${year}`;
-}
 
 function Main({ links, setLink, userData }) {
   const [codes, setCodes] = useState([...links]);
@@ -79,8 +45,8 @@ function Main({ links, setLink, userData }) {
       >
         <p>Delete a chat link</p>
       </div>
-      {/* Lists or chats */}
 
+      {/* Lists or chats */}
       {codes.map((item, index) => {
         return (
           <div
@@ -89,7 +55,10 @@ function Main({ links, setLink, userData }) {
             data-links={item}
             onClick={({ target }) => {
               let link = target.dataset.links;
-              deleteLink(link, setCodes, toast, setLink);
+              deleteLink(link, setCodes, toast, setLink, ()=>{
+                setCodes(data.links);
+                setLink(data.links);
+              });
             }}
             className=" my-3 flex hover:bg-gray-500 p-3 lg:p-2 rounded flex-row justify-between"
           >
@@ -108,43 +77,6 @@ function Main({ links, setLink, userData }) {
       <Toast ref={toast} />
     </div>
   );
-}
-function deleteLink(link, setCodes, toast, setLink) {
-  const Endpoint = `https://chatterbox-v2-api.vercel.app/code`;
-  Axios.put(
-    Endpoint,
-    {
-      code: link,
-    },
-    {
-      headers: {
-        "x-access-token": localStorage.getItem("token"),
-      },
-    }
-  )
-    .then(({ data }) => {
-      if (data.auth == true) {
-        setCodes(data.links);
-        setLink(data.links);
-        toast.current.show({
-          severity: "success",
-          summary: "Deleted successfully!",
-        });
-      } else {
-        console.log(data);
-        toast.current.show({
-          severity: "error",
-          summary: data.message || "Delete error!",
-        });
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-      toast.current.show({
-        severity: "error",
-        summary: "Delete error!",
-      });
-    });
 }
 
 export default Main;
