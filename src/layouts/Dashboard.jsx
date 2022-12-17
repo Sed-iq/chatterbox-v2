@@ -1,32 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Verify from "./components/verify";
-import Axios from "axios";
-import Sidebar from "./components/options";
-import View from "./components/mainoutput";
-import ChatList from "./components/chatList";
-import Bar from "./components/lowerBar";
-import Loading from "./components/loading";
-function GetUserData(setState) {
-  const Endpoint = "https://chatterbox-v2-api.vercel.app/dashboard";
-  Axios.post(
-    Endpoint,
-    {},
-    {
-      headers: {
-        "x-access-token": localStorage.getItem("token"),
-      },
-    }
-  )
-    .then(({ data }) => {
-      if (data.auth === true) setState(data.data);
-      else setState(false);
-    })
-    .catch((err) => {
-      setState(null);
-      console.log(err);
-    });
-}
+import Sidebar from "../components/options";
+import View from "../components/mainoutput";
+import ChatList from "../components/chatList";
+import Bar from "../components/lowerBar";
+import Loading from "../components/loading";
+import { verifyToken } from "../utils/auth_helpers";
+import { getUserData } from "../utils/chat_helpers";
+
 function Body({ data, navigate }) {
   const [links, setLinks] = useState(data.userData.links);
   const [optView, setView] = useState(
@@ -74,8 +55,8 @@ function Main() {
   const [userData, setData] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
-    Verify(setAuth);
-    GetUserData(setData);
+    verifyToken(setAuth);
+    getUserData(setData);
   }, [navigate]);
   if (auth === false) navigate("/login");
   else if (auth === true && userData !== null)

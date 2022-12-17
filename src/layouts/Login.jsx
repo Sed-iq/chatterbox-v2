@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import verify from "./components/verify";
-import Login_page from "./components/form_disp";
-import Login_illus from "./public/images/undraw_enter_uhqk.svg";
+import LoginPage from "../components/form_disp";
+import login_illustration from "../img/undraw_enter_uhqk.svg";
+import { verifyToken } from "../utils/auth_helpers";
 
 function Main() {
   const [error, setError] = useState(null);
@@ -10,7 +10,7 @@ function Main() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    verify(setAuth);
+    verifyToken(setAuth);
   }, [navigate]);
   if (auth === false) return <LoginView state={setError} navigate={navigate} />;
   else if (auth === null) return;
@@ -18,19 +18,19 @@ function Main() {
 }
 
 function LoginView({ state, navigate }) {
-  var illus_text = (
+  var illustration_text = (
     <h2 className="lg:text-3xl text lg:py-5">
       Login to your account and explore so{" "}
       <span className="p-2 neon bg-indigo-500 rounded">More</span>{" "}
     </h2>
   );
   return (
-    <Login_page
-      icon={Login_illus}
+    <LoginPage
+      icon={login_illustration}
       setError={state}
       navigate={navigate}
-      logoHeader={"Login"}
-      illus_text={illus_text}
+      logoHeader={"Login to ChatterBox"}
+      illus_text={illustration_text}
       btn_text={"Login"}
       either_route={"/register"}
       either_text={"New? Register here."}

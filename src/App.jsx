@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Body from "./body.jsx";
-import Login from "./login";
-import Dashboard from "./dashboard";
-import Register from "./register";
-import ChatSpace from "./chatspace";
-import Err from "./404";
+import Body from "./layouts/body.jsx";
+import Login from "./layouts/Login";
+import Dashboard from "./layouts/Dashboard";
+import Register from "./layouts/Register";
+import ChatSpace from "./layouts/ChatSpace";
+import Error from "./Errors";
 function App() {
   return (
     <BrowserRouter>
@@ -14,11 +14,11 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/register" element={<Register />} />
         <Route path="/anon/:link" element={<ChatSpace />} />
-        <Route path="*" element={<Err error={"Page not found"} />} />
         <Route
           path="/error"
-          element={<Err error={"There seems to be an error with the link"} />}
+          element={<Error code="300" error={"There seems to be an error with the link"} />}
         />
+        <Route path="*" element={<Error code="404" message={"Page not found"} />} />
       </Routes>
     </BrowserRouter>
   );

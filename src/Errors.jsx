@@ -1,6 +1,6 @@
-import e_404 from "./public/images/404.svg";
+import e_404 from "./img/404.svg";
 import { Link } from "react-router-dom";
-const App = ({ error }) => {
+const Errors = ({ error }) => {
   return (
     <>
       <p className=" absolute neon p-3 sm:p-4 right-0">Chatterbox v2</p>
@@ -22,4 +22,4 @@ const App = ({ error }) => {
     </>
   );
 };
-export default App;
+export default Errors;

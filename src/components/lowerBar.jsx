@@ -4,6 +4,8 @@ import { Toast } from "primereact/toast";
 import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
 import React, { useRef } from "react";
 import SettingsView from "./settingsView";
+import {deleteAccountConfirmation, logout } from "../utils/auth_helpers";
+import { generateChatLink } from "../utils/chat_helpers";
 const Bar = ({ data, changeView, links, setLinks }) => {
   const toast = useRef();
   return (
@@ -33,7 +35,11 @@ const Bar = ({ data, changeView, links, setLinks }) => {
       <div
         id="add"
         onClick={(e) => {
-          GenerateLink(toast, setLinks, changeView, e, links);
+          generateChatLink(toast, setLinks, changeView, e, links, (data)=>{
+            setLinks(data.link);
+            genConfirm(e, toast, data.link[0]);
+            changeView(<ChatList links={links} />);
+          });
         }}
         className="flex bg-blue-600 px-3 py-2 justify-center items-center"
       >
@@ -41,7 +47,7 @@ const Bar = ({ data, changeView, links, setLinks }) => {
       </div>
       <div
         id="logout"
-        onClick={() => Logout(data, toast)}
+        onClick={() => logout(data, toast)}
         className="flex justify-center items-center"
       >
         <i className="pi pi-sign-out text-xl md:text-2xl"></i>
@@ -49,7 +55,7 @@ const Bar = ({ data, changeView, links, setLinks }) => {
       <div
         id="delete"
         onClick={(e) => {
-          confim(e, data.navigate, toast, deleteACC);
+          deleteAccountConfirmation(e, data.navigate, toast);
         }}
         className="flex justify-center items-center"
       >
@@ -61,109 +67,4 @@ const Bar = ({ data, changeView, links, setLinks }) => {
   );
 };
 
-function GenerateLink(toast, setLinks, changeView, event, links) {
-  const Endpoint = "https://chatterbox-v2-api.vercel.app/generate";
-  Axios.put(
-    Endpoint,
-    {},
-    {
-      headers: {
-        "x-access-token": localStorage.getItem("token"),
-      },
-    }
-  )
-    .then(async ({ data }) => {
-      if (data.auth === true) {
-        toast.current.show({
-          severity: "success",
-          summary: "Link generated successfully. Check your settings to see it",
-          className: "text-sm",
-        });
-
-        setLinks(data.link);
-        genConfirm(event, toast, data.link[0]);
-        changeView(<ChatList links={links} />);
-      } else {
-        toast.current.show({
-          severity: "error",
-          className: "text-sm",
-          summary: "Error, link terminated.",
-        });
-      }
-    })
-    .catch((err) => {
-      toast.current.show({
-        className: "text-sm",
-        severity: "error",
-        summary: "Error generatng link.",
-      });
-    });
-}
-const genConfirm = (event, toast, newLink) => {
-  confirmPopup({
-    target: event.target,
-    className: "text-xs",
-    message: `Would like to copy your new link (${newLink}), and share to the target?`,
-    accept: () => {
-      var textField = document.createElement("textarea");
-      textField.innerText = `This a chat link generated from chatterbox v2, https://chatterbox-v2.vercel.app/anon/${newLink} (You don't have to login to use it)`;
-      document.body.appendChild(textField);
-      textField.select();
-      document.execCommand("copy");
-      textField.remove();
-      toast.current.show({
-        severity: "success",
-        summary: "Link copied now send it to your target.",
-        className: "text-sm",
-      });
-    },
-    reject: (c) => {},
-  });
-};
-function deleteACC(navigate, toast) {
-  const Endpoint = "https://chatterbox-v2-api.vercel.app/delete";
-  Axios.delete(Endpoint, {
-    headers: {
-      "x-access-token": localStorage.getItem("token"),
-    },
-  })
-    .then(({ data }) => {
-      if (data.auth == true) {
-        localStorage.removeItem("token");
-        navigate("/");
-      } else {
-        toast.current.show({
-          severity: "error",
-          summary: "Error deleting account",
-        });
-      }
-    })
-    .catch((err) =>
-      toast.current.show({
-        severity: "error",
-        summary: "Error deleting account",
-      })
-    );
-}
-async function Logout({ navigate }, toast) {
-  // Dispatches
-  try {
-    localStorage.removeItem("token");
-    navigate("/login");
-  } catch (err) {
-    toast.current.show({
-      severity: "error",
-      summary: "Erorr logging out",
-    });
-  }
-}
-const confim = (event, navigate, toast, func) => {
-  confirmPopup({
-    target: event.target,
-    message: "Are you sure you want to delete your account?",
-    icon: "pi pi-exclaimation-mark",
-    accept: () => func(navigate, toast),
-    reject: () => {},
-  });
-};
 export default Bar;

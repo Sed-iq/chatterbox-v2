@@ -1,10 +1,11 @@
 import { io } from "socket.io-client";
-import Savechat from "./saveChat";
 import ReactTimeAgo from "react-time-ago";
-import EmptyChatIco from "./../public/images/empty-chats.svg";
+import EmptyChatIco from "../img/empty-chats.svg";
 import React, { useEffect, useRef, useState } from "react";
 import Loading from "./loading";
 import { useParams, useNavigate } from "react-router-dom";
+import { sendMessage } from "../utils/chat_helpers";
+
 function Body({ chats, setChat, socket, isLog }) {
   const { link } = useParams();
   const navigate = useNavigate();
@@ -169,7 +170,7 @@ function ChatBody({
             <div
               id="sender"
               onClick={() =>
-                SendMessage(
+                sendMessage(
                   socket,
                   setMessage,
                   message,
@@ -201,32 +202,7 @@ function NomsgRender({ ico }) {
     </div>
   );
 }
-function SendMessage(socket, setMessage, message, setChat, navigate, link) {
-  if (message.trim().length === 0) {
-  } else
-    socket.current.emit(
-      "message",
-      {
-        senders_token: localStorage.getItem("senders_token"),
-        message: message.trim(),
-        $token: localStorage.getItem("token"),
-      },
-      (data) => {
-        setChat((prev) => [...prev, data]);
-        // Saving chats
-        Savechat(
-          {
-            senders_token: data.senders_token,
-            message: data.message,
-            date: new Date(),
-          },
-          navigate,
-          link
-        );
-        setMessage("");
-      }
-    );
-}
+
 function parser(arr, ReactTimeAgo) {
   if (arr == "") return;
   else {

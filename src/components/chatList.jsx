@@ -1,7 +1,9 @@
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
-import logo from "./../public/images/chatter_box_logo_white.svg";
+import logo from "../img/chatter_box_logo_white.svg";
 import { Link, useNavigate } from "react-router-dom";
+import { generateChatLink } from "../utils/chat_helpers";
+
 function ChatList({ links }) {
   const navigate = useNavigate();
   const toast = useRef();
@@ -62,7 +64,7 @@ function ChatList({ links }) {
                 className=" w-full"
               ></div>
               <div
-                onClick={(e) => genConfirm(toast, item)}
+                onClick={(e) => generateChatLink(toast, item)}
                 className="rounded  transition hover:bg-gray-800 text-white p-2"
               >
                 <i className="pi pi-copy text-xl"></i>
@@ -75,17 +77,4 @@ function ChatList({ links }) {
     </div>
   );
 }
-const genConfirm = (toast, newLink) => {
-  var textField = document.createElement("textarea");
-  textField.innerText = `This is my chat link generated from chatterbox v2, https://chatterbox-v2.vercel.app/anon/${newLink} (You don't have to login to use it)`;
-  document.body.appendChild(textField);
-  textField.select();
-  document.execCommand("copy");
-  textField.remove();
-  toast.current.show({
-    severity: "success",
-    summary: "Link copied now send it to your target",
-    className: "text-sm",
-  });
-};
 export default ChatList;
