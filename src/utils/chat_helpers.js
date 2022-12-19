@@ -1,8 +1,8 @@
 import axios from 'axios'
-
-
+import { API_ENDPOINT } from './config'
+ 
 export function generateChatLink(toast, setLinks, changeView, event, links, callback=(()=>{})) {
-  const endpoint = "https://chatterbox-v2-api.vercel.app/generate";
+  const endpoint = `${API_ENDPOINT}/generate`;
   axios
     .put(endpoint, {}, 
       {
@@ -58,7 +58,7 @@ export const copyLinkConfirm = (event, toast, newLink) => {
 };
 
 export function deleteChatLink(link, setCodes, toast, setLink, callback = (()=>{})) {
-  const endpoint = `https://chatterbox-v2-api.vercel.app/code`;
+  const endpoint = `${API_ENDPOINT}/code`;
   axios.put(endpoint,
     {
       code: link,
@@ -118,7 +118,7 @@ export function sendMessage(socket, setMessage, message, setChat, navigate, link
 
 export function saveChat(newChat, navigate, link) {
   let { message, senders_token, date } = newChat;
-  const endpoint = "https://chatterbox-v2-api.vercel.app/saveChat";
+  const endpoint = `${API_ENDPOINT}/saveChat`;
   axios.post(
     endpoint,
     {
@@ -144,7 +144,7 @@ export function saveChat(newChat, navigate, link) {
 }
 
 export function getUserData(setState) {
-  const endpoint = "https://chatterbox-v2-api.vercel.app/dashboard";
+  const endpoint = `${API_ENDPOINT}/dashboard`;
   axios.post(
     endpoint,
     {},

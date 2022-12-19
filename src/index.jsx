@@ -14,4 +14,4 @@ import App from "./App";
 
 PrimeReact.ripple = true;
 TimeAgo.addDefaultLocale(en);
-const root = ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);

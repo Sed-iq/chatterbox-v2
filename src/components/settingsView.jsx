@@ -1,79 +1,84 @@
 import { useState, useRef } from "react";
 import logo from "../img/chatter_box_logo_white.svg";
 import { Toast } from "primereact/toast";
+import { useNavigate } from "react-router-dom";
+import { date } from '../utils/helpers'
 
 function Main({ links, setLink, userData }) {
   const [codes, setCodes] = useState([...links]);
+  const navigate = useNavigate();
   const toast = useRef();
   return (
     <div className=" xl:m-2">
       <div id="chat-list-header" className="neon my-3">
-        Settings
       </div>
       <div
-        id="mobile-header"
-        className="neon flex justify-center items-center py-2"
+        className="neon flex py-2 bg-base-purple flex items-center justify-center backdrop-blur-md z-10 justify-center items-center py-2"
       >
-        <img srcSet={logo} alt="" />
-        <p>Settings</p>
+        <img className="h-9 w-9" srcSet={logo} alt="" />
+        <p className="mt-1 px-2">Settings</p>
       </div>
-      <div id="profile-holder" className=" ">
-        <div id="profile-icon">
+      <div className="flex flex-col p-6 items-center gap-y-8">
+        <div className="relative h-36 bg-gray-400/20 w-36 rounded-full flex items-center justify-center">
           <i className=" pi pi-user text-5xl"></i>
         </div>
-        <div id="user-data" className="px-2 ">
-          <p id="name" className="black_north text-xl">
-            {userData.username}
+        <div className="pr-2 pl-4 border-l-8 w-full border-base-purple ">
+          <p className="text-xl lowercase text-base-yellow font-bold ">
+            @{userData.username}
           </p>
-          <p id="createdAt" className=" black_north textx-sm pt-2">
+          <p className="text-sm">
             Joined on {date(userData.joinDate)}
           </p>
           <p id="email" className=" text-sm ">
             {userData.email || (
-              <i className="pi pi-exclamation-triangle text-yellow-400 px-1">
-                <span className="text-white black_north px-2 text-sm">
+              <i className="pi pi-exclamation-triangle text-base-yellow px-1">
+                <span className="text-white px-2 text-sm">
                   No email
                 </span>
               </i>
             )}
           </p>
         </div>
-      </div>
-      <div
-        id="link-lists"
-        className=" black_north mx-3 my-3 lg:m-0 border-b-2 xl:pt-4"
-      >
-        <p>Delete a chat link</p>
-      </div>
-
-      {/* Lists or chats */}
-      {codes.map((item, index) => {
-        return (
-          <div
-            id="hori-chat-list"
-            key={index}
-            data-links={item}
-            onClick={({ target }) => {
-              let link = target.dataset.links;
-              deleteLink(link, setCodes, toast, setLink, ()=>{
-                setCodes(data.links);
-                setLink(data.links);
-              });
-            }}
-            className=" my-3 flex hover:bg-gray-500 p-3 lg:p-2 rounded flex-row justify-between"
-          >
-            <div className=" flex flex-row">
-              <span className="pi pi-circle-fill text-4xl"></span>
-              <div className=" flex flex-col mx-2 px-2 justify-between">
-                <h5 className=" text-sm font-extrabold">{item}</h5>
-              </div>
-            </div>
-            <div className=" flex justify-center items-center">
-              <i className=" pi pi-trash text-red-500"></i>
-            </div>
+        <div className="w-full flex flex-col gap-y-2">
+          <button className="grid place-items-center h-9 rounded text-sm font-bold uppercase w-full bg-blue-400">Log out</button>
+          <div className="flex flex-row gap-x-4 w-full">
+            <button className="grid place-items-center h-9 rounded text-sm font-bold uppercase w-2/3 bg-base-purple">Edit profile</button>
+            <button className="grid place-items-center h-9 rounded text-sm font-bold uppercase w-1/3 bg-red-500">Delete</button>
           </div>
-        );
-      })}
+        </div>
+      </div>
+      <div className="mx-6 mt-2">
+        <p className="text-gray-200 border-gray-400/20 py-2 border-b-4 uppercase text-sm font-bold">
+          Delete a chat link
+        </p>
+        {/* Lists or chats */}
+        {codes.map((item, index) => {
+          return (
+            <div
+              key={index}
+              data-links={item}
+              onClick={() => {navigate(`/anon/${item}`)}}
+              className="my-3 flex hover:bg-gray-400/20 cursor-pointer px-4 py-3 rounded flex-row items-center justify-between"
+            >
+              <div className="flex gap-x-3 items-center">
+                <span className="pi pi-circle-fill text-2xl"></span>
+                <h5 className=" text-base font-bold">{item}</h5>
+              </div>
+              <button
+                onClick={({ target }) => {
+                  let link = target.dataset.links;
+                  deleteLink(link, setCodes, toast, setLink, () => {
+                    setCodes(data.links);
+                    setLink(data.links);
+                  });
+                }}
+                className="h-9 w-9 hover text-red-500 hover:text-white hover:bg-red-500 transition-colors duration-300 grid place-items-center rounded-full">
+                <i className=" pi pi-trash"></i>
+              </button>
+            </div>
+          );
+        })}
+      </div>
       <Toast ref={toast} />
     </div>
   );

@@ -5,12 +5,13 @@ import Axios from "axios";
 import { useRef } from "react";
 import Body from "../components/chatBody";
 import Loading from "../components/loading";
+import { API_ENDPOINT } from '../utils/config'
 
 function starter(link, navigate, setDone, setChat, setLog) {
   // Verifies token and assembles chat
-  const Endpoint = `https://chatterbox-v2-api.vercel.app/anon/${link}`;
+  const endpoint = `${API_ENDPOINT}/anon/${link}`;
   Axios.post(
-    Endpoint,
+    endpoint,
     {},
     {
       headers: {

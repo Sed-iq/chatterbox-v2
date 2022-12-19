@@ -1,4 +1,4 @@
-function date(x) {
+export function date(x) {
   let _ = new Date(x).getDay();
   let day;
   switch (_) {

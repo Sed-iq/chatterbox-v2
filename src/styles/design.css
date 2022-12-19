@@ -71,11 +71,7 @@ img {
   padding: 0.6em;
   background-color: rgb(54, 45, 116);
 }
-#dashboard #MobileBar #bar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
+
 #dashboard #MobileBar #bar #add {
   -webkit-clip-path: circle(40% at center 50%);
           clip-path: circle(40% at center 50%);
@@ -96,9 +92,6 @@ img {
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
-}
-#chat-list .chat-list-item {
-  display: inline-block;
 }
 
 #recent-chats p {
@@ -313,11 +306,7 @@ img {
     flex-direction: column;
     justify-content: space-between;
   }
-  #inputs {
-    display: flex;
-    justify-content: center;
-    margin: 1em 0em;
-  }
+  
   #inputs #input_holder input {
     padding: 1em 0.8em;
   }
@@ -385,23 +374,6 @@ img {
 
 #options-tab {
   display: none;
-}
-
-#mobile-header {
-  padding: 0.5em;
-  position: -webkit-sticky;
-  position: sticky;
-  background-color: var(--mobile-slate);
-  top: 0.32px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#mobile-header p {
-  padding: 0em 0.6em;
-}
-#mobile-header img {
-  width: 30px;
 }
 
 @media (min-width: 1024px) {

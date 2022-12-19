@@ -36,7 +36,7 @@ function Body({ data, navigate }) {
         <div id="options-output" className="">
           <View data={data} view={optView} changeView={setView} />
         </div>
-        <div id="MobileBar">
+        <div className="px-4 py-3 bg-[rgb(54,45,116)] rounded-t-lg">
           <Bar
             data={data}
             links={links}

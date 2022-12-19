@@ -1,4 +1,4 @@
-import e_404 from "./img/404.svg";
+import e_404 from "../img/404.svg";
 import { Link } from "react-router-dom";
 const Errors = ({ error }) => {
   return (
