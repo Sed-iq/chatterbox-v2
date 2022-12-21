@@ -33,7 +33,7 @@ function LoginView({ state, navigate }) {
       illus_text={illustration_text}
       btn_text={"Login"}
       either_route={"/register"}
-      either_text={"New? Register here."}
+      either_text={"Not a member? Register here."}
     />
   );
 }

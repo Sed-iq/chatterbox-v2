@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Loading from "./loading";
 import { useParams, useNavigate } from "react-router-dom";
 import { sendMessage } from "../utils/chat_helpers";
+import { IO_ENDPOINT } from "../utils/config"
 
 function Body({ chats, setChat, socket, isLog }) {
   const { link } = useParams();
@@ -16,7 +17,7 @@ function Body({ chats, setChat, socket, isLog }) {
   // Socket handlings
   useEffect(() => {
     try {
-      socket.current = io("https://chatterbox-socket.onrender.com", {
+      socket.current = io(IO_ENDPOINT, {
         transports: ["websocket", "polling", "flashsocket"],
         auth: {
           $token: localStorage.getItem("senders_token"),
@@ -121,23 +122,25 @@ function ChatBody({
           className=" sm:p-3 sm:rounded sm:w-96 text-white"
         >
           <div
-            id="header"
-            className=" sm:py-1 border-b-2 sm:flex sm:flex-row justify-between"
+            className="border-b-2 sticky top-0 backdrop-blur-md border-gray-400/20 flex px-4 py-2 flex-row justify-between"
           >
-            <div className="flex">
-              <span className=" mx-3 py-2">
+            <div className="flex items-center gap-x-3">
+              <button className="hover:bg-gray-400/20 h-9 w-9 rounded-full">
+                <i className="pi pi-arrow-left"></i>
+              </button>
+              <span>
                 {online == true ? (
-                  <i className="pi pi-circle-fill text-lime-500 text-2xl"></i>
+                  <i className="pi pi-circle-fill text-lime-500 text-4xl"></i>
                 ) : (
-                  <i className="pi pi-circle-fill text-2xl"></i>
+                  <i className="pi pi-circle-fill text-4xl"></i>
                 )}
               </span>
-              <div className=" flex flex-col justify-between ">
-                <p className=" px-1 font-bold">{link}</p>
+              <div className="flex flex-col justify-between ">
+                <p className="text-sm font-bold">{link}</p>
                 {online == true ? (
-                  <p className=" px-1 text-sm text-lime-500 neon">Online</p>
+                  <p className=" text-xs font-bold text-lime-500">Online</p>
                 ) : (
-                  <p className=" px-1 text-sm text-gray-400 neon">Offline</p>
+                  <p className="text-xs font-bold text-gray-400">Offline</p>
                 )}
               </div>
             </div>
@@ -145,14 +148,14 @@ function ChatBody({
               {login == true ? (
                 <i
                   onClick={() => navigate("/dashboard")}
-                  className=" text-xl hover:bg-gray-900 transition-all ease-in-out p-2 rounded cursor-pointer pi pi-user"
+                  className=" text-base bg-gray-400/20 h-10 w-10 rounded-full grid place-items-center transition-all ease-in-out cursor-pointer pi pi-user"
                 ></i>
               ) : (
                 <></>
               )}
             </div>
           </div>
-          <div id="chats" ref={msgRef}>
+          <div ref={msgRef}>
             {chats == "" ? (
               <NomsgRender ico={emptyIco} />
             ) : (
@@ -161,27 +164,44 @@ function ChatBody({
 
             {/* Chats */}
           </div>
-          <div id="message_sender">
-            <textarea
-              value={message}
-              placeholder="Write a message"
-              onChange={(e) => setMessage(e.target.value)}
-            ></textarea>
-            <div
-              id="sender"
-              onClick={() =>
-                sendMessage(
-                  socket,
-                  setMessage,
-                  message,
-                  setChat,
-                  navigate,
-                  link
-                )
-              }
-              className=""
-            >
-              <i className="pi pi-send text-xl"></i>
+          <div className="backdrop-blur-md shadow-md rounded-t-md sticky inset-x-0 bottom-0">
+            <div className="flex w-full px-4 py-3">
+              <form
+
+                className="w-full"
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  sendMessage(
+                    socket,
+                    setMessage,
+                    message,
+                    setChat,
+                    navigate,
+                    link
+                  )
+                }}>
+                <input
+                  className="bg-transparent h-10 border-2 rounded-l border-blue-400 text-gray-200 placeholder:text-xm placeholder:text-blue-400 w-full p-2 px-4 text-gray-200 text-sm focus:outline-none bg-transparent"
+                  value={message}
+                  placeholder="Write a message"
+                  onChange={(e) => setMessage(e.target.value)}
+                ></input>
+              </form>
+              <button
+                className="flex bg-blue-400 border border-blue-400  h-10 flex-shrink-0 w-14 items-center justify-center rounded-r"
+                onClick={() =>
+                  sendMessage(
+                    socket,
+                    setMessage,
+                    message,
+                    setChat,
+                    navigate,
+                    link
+                  )
+                }
+              >
+                <i className="pi pi-send mt-1 mr-0.5 text-base"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -208,23 +228,23 @@ function parser(arr, ReactTimeAgo) {
   else {
     return arr.map((item, index) => {
       return item.senders_token == localStorage.getItem("senders_token") ? (
-        <div id="chat_holder" key={index}>
-          <div id="me">
-            <p id="time" className="pb-2 text-xs ">
+        <div className="flex w-full personal-chat" key={index}>
+          <div className="flex ml-auto max-w-[70%] mr-3 flex-col bg-blue-400/50 px-3 py-1 my-[1px] rounded-l-md">
+            <p id="time" className="pb-0.5 font-semibold text-xs ">
               <ReactTimeAgo date={item.date} locale="en-US" />
             </p>
             <p className="text-sm">{item.message}</p>
           </div>
         </div>
       ) : (
-        <div key={index} id="chat_holder">
-          <div id="other">
-            <p id="time" className="pb-2 text-xs ">
+        <p key={index} className="others-chat w-full flex">
+          <div className="flex mr-auto max-w-[70%] ml-3 flex flex-col bg-gray-600/50 px-3 py-1 my-[1px] rounded">
+            <p id="time" className="pb-0.5 text-xs font-semibold">
               <ReactTimeAgo date={item.date} locale="en-US" />
             </p>
             <p className="text-sm">{item.message}</p>
           </div>
-        </div>
+        </p>
       );
     });
   }

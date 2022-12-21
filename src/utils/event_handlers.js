@@ -1,11 +1,12 @@
 import axios from 'axios';
+import { API_ENDPOINT } from './config'
 
 export function onRegister(data, navigate, toast, setIcon, setBtnState) {
   data.preventDefault();
   const username = document.forms[0][0].value;
   const email = document.forms[0][2].value,
     password = document.forms[0][1].value,
-    endpoint = "https://chatterbox-v2-api.vercel.app/register";
+    endpoint = `${API_ENDPOINT}/register`;
   const charexp = /[?/<>,.:"'{}\[\]!@#$%$^&*()_+=~]/;
   const spc = /[\s ]/g;
   const digit = /[\d]/g;
@@ -55,6 +56,7 @@ export function onRegister(data, navigate, toast, setIcon, setBtnState) {
       })
       .catch((err) => {
         setBtnState(false);
+        console.log(err, "Hello")
         setIcon("");
         toast.current.show({
           className: "sm:text-sm text-black text-xs",
@@ -72,7 +74,7 @@ export function onLogin(data, navigate, toast, setIcon, setBtnState) {
   setBtnState(true);
   const username = document.forms[0][0].value;
   const password = document.forms[0][1].value;
-  const endpoint = "https://chatterbox-v2-api.vercel.app/login";
+  const endpoint = `${API_ENDPOINT}/login`;
   axios
     .post(
       endpoint,

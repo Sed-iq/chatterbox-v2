@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { API_ENDPOINT } from './config'
 
 export function deleteAccount(navigate, toast) {
-  const endpoint = "https://chatterbox-v2-api.vercel.app/delete";
+  const endpoint = `${API_ENDPOINT}/delete`;
   axios
     .delete(endpoint, {
       headers: {
@@ -51,9 +52,9 @@ export const deleteAccountConfirmation = (event, navigate, toast, func) => {
 };
 
 export function verifyToken(setState) {
-  const Endpoint = "https://chatterbox-v2-api.vercel.app/validate";
+  const endpoint = `${API_ENDPOINT}/validate`;
   axios.post(
-    Endpoint,
+    endpoint,
     {},
     {
       headers: {

@@ -4,7 +4,7 @@ import Login from "./layouts/Login";
 import Dashboard from "./layouts/Dashboard";
 import Register from "./layouts/Register";
 import ChatSpace from "./layouts/ChatSpace";
-import Error from "./Errors";
+import Error from "./layouts/errors";
 function App() {
   return (
     <BrowserRouter>

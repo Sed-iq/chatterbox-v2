@@ -8,10 +8,10 @@ import { onLogin, onRegister } from "../utils/event_handlers";
 
 function Inputs({ placeholder, type, ico, clas, required }) {
   return (
-    <div id="inputs" className={`w-full flex lg:mt-16 ${clas}`}>
+    <div id="inputs" className={`w-full flex justify-center my-4 lg:mt-16 ${clas}`}>
       <div className="flex flex-row bg-gray-900 w-5/6 group focus-within:border-[#FFF59D] px-2 border-gray-900 border-2 rounded-md">
         <div className="flex justify-center pr-4 pl-2 border-r-2 border-gray-800 rounded-l items-center  ">
-          <i className={ico + " group-focus-within:text-[#FFF59D]"} ></i>
+          <i className={ico + " group-focus-within:text-base-yellow"} ></i>
         </div>
         <div id="input_holder" className="full">
           <InputText
@@ -42,13 +42,14 @@ const Form = ({
   const [btn_state, setBtnState] = useState(false);
   const toast = useRef("");
   return (
-    <div id="cover" className=" h-screen flex flex-col ">
+    <div id="cover" className=" h-screen flex justify-between flex-col ">
       <nav className="p-4 flex">
         <Link to={"/"} className="h-9 !w-9 !min-w-0 rounded-full p-button p-button-warning justify-center items-center flex mr-auto">
           <i className="pi pi-angle-double-left"></i>
         </Link>
       </nav>
       <form
+        className="h-full"
         action="#"
         onSubmit={(e) => {
           if (reg === true)
@@ -58,7 +59,7 @@ const Form = ({
       >
         <div
           id="login"
-          className="flex flex-col  lg:h-full lg:flex-row  lg:items-center xl:flex-row "
+          className="flex flex-col lg:h-full lg:flex-row lg:items-center xl:flex-row "
         >
           <div
             id="illus"
@@ -75,8 +76,7 @@ const Form = ({
             {/* Login proper */}
             <div className="login pt-5 px-3">
               <div className="login_inside ">
-                <h2 className="text text-3xl text-center">{logoHeader}</h2>
-
+                <h2 className="text text-3xl text-center mb-10">{logoHeader}</h2>
                 <Inputs
                   placeholder={"Username"}
                   type={"text"}
@@ -99,16 +99,16 @@ const Form = ({
                     icon={btn_ico}
                   />
                 </div>
-                <Link to={either_route}>
-                  <p id="reg_link">{either_text}</p>
+                <Link to={either_route} className="text-sm hover:text-blue-400 flex mx-auto my-2 text-center">
+                  <p className="inline mx-auto">{either_text}</p>
                 </Link>
-                <Footer />
                 <Toast ref={toast} />
               </div>
             </div>
           </div>
         </div>
       </form>
+      <Footer className="mt-36"/>
     </div>
   );
 };
